@@ -1,65 +1,29 @@
-# Site e blog pessoal
+# Fast Fill Game - Server Implementation
 
-Um site onde o usuário principal pode mostrar seu portfolio e competências, além de divulgar suas informações de contato e postar artigos.
-## Começando
+The server-side component for the Fast Fill Game, a competitive multiplayer game where players race to click squares faster than their opponents.
 
-Como instalar e rodar esse projeto.
+## 🚀 Quick Start
 
-### Prerequisitos
+### Prerequisites
 
-As únicas tecnologias tecnologias necessárias são `Git` e `Docker`.
+Docker and Docker Compose installed
 
-### Clonando
+Setup
 
-Crie uma cópia do código na sua máquina local com
+1. Configure Environment
 
-```
-git clone https://github.com/EnzoSoares73/meuSite.git
-```
-### Configurando variáveis de ambiente
-
-Crie um arquivo chamado `.env` na raiz do seu projeto com o seguinte conteúdo:
+Create a ```.env``` file with the following variables:
 
 ```
-DEBUG=1
-SECRET_KEY=ALGUMACOISAFORTE
-DJANGO_ALLOWED_HOSTS=*
-USER=nomeuser
-EMAIL=teste@teste.com
-EMAIL_PASSWORD=senha
-RECAPTCHA_SITE_KEY=aaaa
-RECAPTCHA_PRIVATE_KEY=aaaa
-DB_PASSWORD=senha
-DB_USER=nomeuserqualquer
-DB_NAME=meu_site
-DB_HOST=db
+SECRET_KEY=your_strong_secret_key_here
+DEBUG=1  # Set to 0 in production
+DJANGO_ALLOWED_HOSTS=http://0.0.0.0
 ```
 
-Se quiser usar a funcionalidade de enviar emails pela página de contato, defina `EMAIL` e `EMAIL_PASSWORD` usando credenciais de email que dão suporte a `smtp` e substitua as credenciais `reCAPTCHA` por chaves obtidas através do site oficial. 
 
-### Criando containers
-
-Execute o script `scripts/rundjango.sh`. Se estiver usando linux, use `sudo`
-
-### Definindo o usuário principal
-
-Crie um usuário admin usando o comando:
+Run the Server
+Execute the following command:
 
 ```
-docker exec meu_site python manage.py createsuperuser
+docker-compose -f docker-compose.yml up --build
 ```
-
-O usuário deve ter o mesmo nome de `USER` em `.env`
-
-## Feito com
-
-* [PyCharm](https://www.jetbrains.com/pycharm/) - IDE usado
-* [Django](https://www.djangoproject.com/) - WEB framework
-
-## Autor
-
-* **[Enzo Soares](https://github.com/EnzoSoares73)** 
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
