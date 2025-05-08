@@ -1,0 +1,42 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      args:
+          ENTRYPOINT_SCRIPT: entrypoint.prod.sh
+    expose:
+      - 8000
+    env_file:
+      - .env
+
+  nginx:
+    container_name: server
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - static_volume:/home/web/app/staticfiles
+      - letsencrypt:/etc/letsencrypt:ro
+      - acme-challenge:/var/www/certbot:ro
+    ports:
+      - "443:443"
+      - "80:80"
+    depends_on:
+      - web
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - letsencrypt:/etc/letsencrypt:rw
+      - acme-challenge:/var/www/certbot:rw
+    command: certonly -d enzo.soares.digital --email enzo@soares.digital --agree-tos --no-eff-email --webroot --webroot-path=/var/www/certbot -v --keep-until-expiring
+    depends_on:
+      - nginx
+
+volumes:
+  static_volume:
+  letsencrypt:
+  acme-challenge:
