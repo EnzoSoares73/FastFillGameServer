@@ -32,6 +32,5 @@ services:
       - nginx
 
 volumes:
-  static_volume:
   letsencrypt:
   acme-challenge:
