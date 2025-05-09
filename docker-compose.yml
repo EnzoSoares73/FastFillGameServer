@@ -4,8 +4,6 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
-      args:
-          ENTRYPOINT_SCRIPT: entrypoint.sh
     volumes:
       - ./app/:/home/web/app
     ports:

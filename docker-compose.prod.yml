@@ -4,8 +4,6 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
-      args:
-          ENTRYPOINT_SCRIPT: entrypoint.prod.sh
     expose:
       - 8000
     env_file:
@@ -13,11 +11,8 @@ services:
 
   nginx:
     container_name: server
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
+    image: anonymouspumpkin/fastfillgameclient:latest
     volumes:
-      - static_volume:/home/web/app/staticfiles
       - letsencrypt:/etc/letsencrypt:ro
       - acme-challenge:/var/www/certbot:ro
     ports:
@@ -32,7 +27,7 @@ services:
     volumes:
       - letsencrypt:/etc/letsencrypt:rw
       - acme-challenge:/var/www/certbot:rw
-    command: certonly -d enzo.soares.digital --email enzo@soares.digital --agree-tos --no-eff-email --webroot --webroot-path=/var/www/certbot -v --keep-until-expiring
+    command: certonly -d game.enzo.soares.digital --email enzo@soares.digital --agree-tos --no-eff-email --webroot --webroot-path=/var/www/certbot -v --keep-until-expiring
     depends_on:
       - nginx
 

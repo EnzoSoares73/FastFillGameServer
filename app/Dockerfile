@@ -14,12 +14,7 @@ RUN touch README.md
 
 RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
-# The runtime image, used to just run the code provided its virtual environment
 FROM python:3.13-slim AS runtime
-
-ARG ENTRYPOINT_SCRIPT
-
-ENV ENTRYPOINT_SCRIPT=$ENTRYPOINT_SCRIPT
 
 ENV TZ="America/Sao_Paulo"
 ENV VIRTUAL_ENV=/app/.venv
@@ -38,10 +33,10 @@ COPY . $APP_HOME
 
 RUN . ${VIRTUAL_ENV}/bin/activate
 
-# chown all the files to the app user
 RUN chown -R web:web $APP_HOME
 
-# change to the app user
+RUN ["chmod", "+x", "/home/web/app/entrypoint.sh"]
+
 USER web
 
-ENTRYPOINT ["/bin/sh", "-c", "/home/web/app/${ENTRYPOINT_SCRIPT}"]
+ENTRYPOINT ["/home/web/app/entrypoint.sh"]
